@@ -1,39 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Add Product</title>
-<link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sell Item | NITS Bazar</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-<nav class="navbar">
-<h1>NITS Bazar</h1>
-<a href="index.html" class="add-btn">Home</a>
-</nav>
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">NITS <span>Bazar</span></a>
+        </div>
+        
+        <nav>
+            <a href="index.html" class="nav-link">Back to Home</a>
+        </nav>
+    </header>
 
-<section class="container">
+    <main class="container">
+        <section class="form-section">
+            
+            <div class="form-header">
+                <h2>List a New Item</h2>
+                <p>Fill out the details below to post your item for sale.</p>
+            </div>
 
-<h2>Add Product</h2>
+            <form id="productForm" class="styled-form">
+                
+                <div class="form-group">
+                    <label for="name">Product Title</label>
+                    <input type="text" id="name" name="name" placeholder="e.g. Engineering Mathematics Book" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="price">Price (₹)</label>
+                        <input type="number" id="price" name="price" min="0" step="1" placeholder="e.g. 500" required>
+                    </div>
+                    
+                    <div class="form-group half-width">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="books">Books & Notes</option>
+                            <option value="furniture">Furniture</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
 
-<form id="productForm" class="form">
+                <div class="form-group">
+                    <label for="image">Image URL</label>
+                    <input type="url" id="image" name="image" placeholder="https://example.com/image.jpg" required>
+                    <small class="help-text">Please provide a valid URL for the product image.</small>
+                </div>
 
-<input type="text" id="name" placeholder="Product Name" required>
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
+                </div>
 
-<input type="number" id="price" placeholder="Price" required>
+                <button type="submit" class="submit-btn">Post Product</button>
 
-<input type="text" id="image" placeholder="Image URL" required>
+            </form>
+            
+        </section>
+    </main>
 
-<input type="text" id="contact" placeholder="Contact Number" required>
-
-<button type="submit">Add Product</button>
-
-</form>
-
-</section>
-
-<script src="js/addProduct.js"></script>
-
+    <script src="js/addProduct.js"></script>
 </body>
 </html>

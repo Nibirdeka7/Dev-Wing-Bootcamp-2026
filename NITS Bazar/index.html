@@ -1,27 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>NITS Bazar</title>
-<link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NITS Bazar | Campus Marketplace</title>
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-<nav class="navbar">
-<h1>NITS Bazar</h1>
-<a href="add-product.html" class="add-btn">Add Product</a>
-</nav>
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">NITS <span>Bazar</span></a>
+        </div>
+        
+        <nav>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
+            <a href="add-product.html" class="add-btn">Sell Item</a>
+        </nav>
+    </header>
 
-<section class="container">
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Campus Marketplace</h1>
+                <p>Buy and sell items within NIT Silchar seamlessly.</p>
+                
+                <div class="search-container">
+                    <input type="search" id="search" placeholder="Search for electronics, books, etc...">
+                    <select id="category-filter" aria-label="Filter by category">
+                        <option value="all">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="books">Books & Notes</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+        </section>
 
-<h2>Campus Marketplace</h2>
+        <section class="container" aria-labelledby="products-heading">
+            <div class="section-header">
+                <h2 id="products-heading">Latest Listings</h2>
+            </div>
+            
+            <div class="product-grid" id="products">
+                <!-- Products will be dynamically injected here via JS -->
+                <div class="loading-state">Loading products...</div>
+            </div>
+        </section>
+    </main>
 
-<div id="products" class="product-grid"></div>
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; <span id="current-year"></span> NITS Bazar.</p>
+            <p>Built for NIT Silchar Web Dev Bootcamp to teach HTML, CSS, and JS.</p>
+        </div>
+    </footer>
 
-</section>
-
-<script src="js/app.js"></script>
-
+    <script src="js/app.js"></script>
 </body>
 </html>

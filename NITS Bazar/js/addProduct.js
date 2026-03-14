@@ -1,35 +1,58 @@
-const form = document.getElementById("productForm")
+const form = document.getElementById("productForm");
+const submitBtn = form.querySelector('button[type="submit"]');
 
-form.addEventListener("submit",async function(e){
+form.addEventListener("submit", async function(e) {
+    e.preventDefault(); // Prevent default form submission
 
-e.preventDefault()
+    // 1. Collect form data
+    const name = document.getElementById("name").value.trim();
+    const price = Number(document.getElementById("price").value);
+    const category = document.getElementById("category").value;
+    const image = document.getElementById("image").value.trim();
+    const contact = document.getElementById("contact").value.trim();
 
-const product={
+    // 2. Client-side validation
+    if (!name || isNaN(price) || price <= 0 || !category) {
+        alert("Please fill in all required fields correctly.");
+        return;
+    }
 
-name:document.getElementById("name").value,
+    const newProduct = {
+        name,
+        price,
+        category,
+        image,
+        contact
+    };
 
-price:document.getElementById("price").value,
+    // 3. Update UI state (teach user feedback)
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.textContent = "Posting...";
+    submitBtn.disabled = true;
 
-image:document.getElementById("image").value,
+    // 4. Async operations & Error Handling
+    try {
+        const res = await fetch("http://localhost:3000/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newProduct)
+        });
 
-contact:document.getElementById("contact").value
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
 
-}
-
-await fetch("http://localhost:3000/products",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify(product)
-
-})
-
-alert("Product added!")
-
-window.location.href="index.html"
-
-})
+        alert("Product listed successfully!");
+        window.location.href = "index.html";
+        
+    } catch (error) {
+        console.error("Error adding product:", error);
+        alert("Failed to add product. Please make sure the JSON server is running.");
+    } finally {
+        // Reset UI state regardless of success or failure
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
+    }
+});
