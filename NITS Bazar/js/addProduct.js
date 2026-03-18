@@ -32,7 +32,7 @@ form.addEventListener("submit", async function(e) {
 
     // 4. Async operations & Error Handling
     try {
-        const res = await fetch("http://localhost:3000/products", {
+        const res = await fetch("https://dev-wing-bootcamp-2026.vercel.app/products", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

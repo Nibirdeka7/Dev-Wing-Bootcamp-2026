@@ -29,7 +29,7 @@ themeToggleBtn.addEventListener("click", () => {
 /* --- 2. Fetching and Filtering Data --- */
 async function loadProducts() {
     try {
-        const res = await fetch("http://localhost:3000/products");
+        const res = await fetch("https://dev-wing-bootcamp-2026.vercel.app/products");
         if (!res.ok) throw new Error("Failed to fetch products");
         
         allProducts = await res.json();
@@ -40,26 +40,7 @@ async function loadProducts() {
     }
 }
 
-function handleFilters() {
-    if (!searchInput || !categoryFilter) return;
 
-    const searchTerm = searchInput.value.toLowerCase();
-    const selectedCategory = categoryFilter.value;
-
-    const filtered = allProducts.filter(product => {
-        // Teach array methods and condition logic
-        const matchesSearch = product.name.toLowerCase().includes(searchTerm);
-        const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
-        
-        return matchesSearch && matchesCategory;
-    });
-
-    renderProducts(filtered);
-}
-
-// Event Listeners for filtering
-if (searchInput) searchInput.addEventListener("input", handleFilters);
-if (categoryFilter) categoryFilter.addEventListener("change", handleFilters);
 
 /* --- 3. DOM Manipulation & Semantic HTML --- */
 function renderProducts(products) {
