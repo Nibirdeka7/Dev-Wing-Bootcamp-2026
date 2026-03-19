@@ -1,84 +1,41 @@
-// State variables
-let allProducts = [];
-const container = document.getElementById("products");
-const searchInput = document.getElementById("search");
-const categoryFilter = document.getElementById("category-filter");
-const themeToggleBtn = document.getElementById("theme-toggle");
+const API_URL = "https://dev-wing-bootcamp-2026.vercel.app/products";
 
-/* --- 1. Dark Mode & Local Storage --- */
-function initTheme() {
-    // Check local storage for preference
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-        document.body.classList.add("dark-mode");
-    }
-}
+async function fetchAndRenderProducts() {
+  const productsContainer = document.getElementById("products");
 
-themeToggleBtn.addEventListener("click", () => {
-    // Toggle class on body
-    document.body.classList.toggle("dark-mode");
-    
-    // Save to local storage
-    if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-    } else {
-        localStorage.setItem("theme", "light");
-    }
-});
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error("Failed to fetch");
 
-/* --- 2. Fetching and Filtering Data --- */
-async function loadProducts() {
-    try {
-        const res = await fetch("https://dev-wing-bootcamp-2026.vercel.app/products");
-        if (!res.ok) throw new Error("Failed to fetch products");
-        
-        allProducts = await res.json();
-        renderProducts(allProducts);
-    } catch (error) {
-        console.error("Error loading products:", error);
-        container.innerHTML = `<div class="loading-state">Error loading products. Make sure json-server is running.</div>`;
-    }
-}
-
-
-
-/* --- 3. DOM Manipulation & Semantic HTML --- */
-function renderProducts(products) {
-    container.innerHTML = ""; // Clear existing
+    const products = await response.json();
+    productsContainer.innerHTML = ""; // Remove the loading text
 
     if (products.length === 0) {
-        container.innerHTML = '<div class="no-results">No products found matching your criteria.</div>';
-        return;
+      productsContainer.innerHTML =
+        "<p>No products listed yet. Be the first!</p>";
+      return;
     }
 
-    products.forEach((product, index) => {
-        // Teach DOM element creation
-        const card = document.createElement("article"); // Semantic tag
-        card.className = "card";
-        // Teach template literals and inline styles for animation delay
-        card.style.animationDelay = `${index * 0.1}s`; 
-
-        card.innerHTML = `
-            <img src="${product.image}" loading="lazy" alt="${product.name}">
-            <div class="card-body">
-                <span class="card-category">${product.category || 'Item'}</span>
-                <h3>${product.name}</h3>
-                <p class="price">₹${product.price.toLocaleString('en-IN')}</p>
-                <a href="tel:${product.contact}" class="contact-btn">Contact: ${product.contact}</a>
-            </div>
-        `;
-
-        container.appendChild(card);
+    products.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" loading="lazy">
+                <div class="card-info">
+                    <span class="category-tag">${item.category}</span>
+                    <h3>${item.name}</h3>
+                    <span class="price">₹${Number(item.price).toLocaleString()}</span>
+                    <a href="https://wa.me/91${item.contact}" target="_blank" class="contact-link">
+                        Chat on WhatsApp
+                    </a>
+                </div>
+            `;
+      productsContainer.appendChild(card);
     });
+  } catch (error) {
+    console.error(error);
+    productsContainer.innerHTML = `<p style="color:red">Failed to load products. Is the server running?</p>`;
+  }
 }
 
-// Initialize
-document.addEventListener("DOMContentLoaded", () => {
-    initTheme();
-    
-    // Set current year in footer
-    const yearSpan = document.getElementById("current-year");
-    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-
-    if (container) loadProducts();
-});
+document.addEventListener("DOMContentLoaded", fetchAndRenderProducts);
